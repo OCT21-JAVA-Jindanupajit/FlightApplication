@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!--  Bootstrap 4.3.1  -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+
+<th:block th:fragment="list" th:each="flightSchedule : ${flightScheduleCollection}">
+    <th:block th:replace="::card">...</th:block>
+</th:block>
+
+<th:block th:fragment="card"  th:object="${flightSchedule}">
+    <div class="card flex-row flex-wrap">
+        <div class="card-header border-0">
+            <img src="//">
+        </div>
+        <div class="card-block px-2">
+            <h3 class="card-title">
+                <span th:text="${flightSchedule.flight.airline.iataCode}">KE</span>
+                <span th:text="${flightSchedule.flight.flightNumber}">0009</span>
+            </h3>
+            <div th:text="${flightSchedule.departureString}"></div>
+            <div th:text="${flightSchedule.flight.from.iataCode}"></div>
+            <div th:text="${flightSchedule.flight.destination.iataCode}"></div>
+        </div>
+    </div>
+</th:block>
+<th:block th:fragment="view"  th:object="${flightSchedule}">
+    <div>
+        <span th:text="${flightSchedule.flight.airline.iataCode}">KE</span>
+        <span th:text="${flightSchedule.flight.flightNumber}">0009</span>
+    </div>
+    <div th:text="${flightSchedule.departureString}"></div>
+    <div th:text="${flightSchedule.flight.from.iataCode}"></div>
+    <div th:text="${flightSchedule.flight.destination.iataCode}"></div>
+</th:block>
+<th:block th:fragment="edit">
+    <form th:action="@{/flight/process/edit}" th:object="${flightSchedule}" method="POST">
+        <div>
+            <input placeholder="code" type="text" class="formcontrol" th:field="${flightSchedule.flight.airline.iataCode}" />
+            <input placeholder="number" type="text" class="formcontrol" th:field="${flightSchedule.flight.flightNumber}" />
+        </div>
+        <input placeholder="date" type="text" class="formcontrol" th:name="departureString" />
+        <input placeholder="from" type="text" class="formcontrol" th:field="${flightSchedule.flight.from.iataCode}" />
+        <input placeholder="destination" type="text" class="formcontrol" th:field="${flightSchedule.flight.destination.iataCode}" />
+        <input placeholder="price" type="text" class="formcontrol" name="price" />
+        <button class="btn btn-success" type="submit">Save</button>
+    </form>
+</th:block>
+
+
+<!--  Bootstrap 4.3.1  -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
