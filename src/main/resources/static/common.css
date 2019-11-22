@@ -17,3 +17,21 @@ a.color-navy:hover {
     color: #64698f;
     text-decoration: none;
 }
+.view .editable {
+    visibility: hidden;
+    display: none;
+}
+
+.view .display {
+    visibility: visible;
+    display: inline-block;
+}
+.edit .editable {
+    visibility: visible;
+    display: inline-block;
+}
+
+.edit .display {
+    visibility: hidden;
+    display: none;
+}

@@ -24,7 +24,7 @@ public class AirlineDataInitializer implements CommandLineRunner {
             return;
 
         try {
-            BufferedReader csvReader = new BufferedReader(new FileReader("./data/AirlineDataInit.csv"));
+            BufferedReader csvReader = new BufferedReader(new FileReader("./data/csv/AirlineDataInit.csv"));
             String line;
 
             while ((line = csvReader.readLine()) != null) {

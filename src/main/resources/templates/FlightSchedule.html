@@ -107,8 +107,20 @@
     <form th:action="@{/flight/process/edit}" th:object="${flightSchedule}" method="POST">
         <div>
             <input type="hidden" th:field="${flightSchedule.id}" />
-            <input placeholder="airline code" type="text" class="formcontrol" th:name="airlineString" th:value="${flightSchedule.flight.airline.iataCode}" />
-            <input placeholder="flight number" type="text" class="formcontrol" th:name="flightNumberString" th:value="${flightSchedule.flight.flightNumber}" />
+            <div id="airline-flight-number" class="view">
+                <input placeholder="airline code" type="text" class="formcontrol editable" th:name="airlineString"
+                       th:value="${flightSchedule.flight.airline.iataCode}" />
+                <input placeholder="flight number" type="text" class="formcontrol editable" th:name="flightNumberString"
+                       th:value="${flightSchedule.flight.flightNumber}" />
+                <span class="col-4 display" style="font-size: 1.4rem;">
+                    <a class="color-navy" th:href="'/flight/view/'+${flightSchedule.id}">
+                    <span th:text="${flightSchedule.flight.airline.iataCode}">KE</span>
+                    <span th:text="${flightSchedule.flight.flightNumber}">0009</span>
+                    </a>
+                    <a href="javascript:$('#airline-flight-number').toggleClass('view').toggleClass('edit');"
+                    style="text-underline: dotted; font-size: 0.7rem;">edit</a>
+                </span>
+            </div>
         </div>
         <input placeholder="yyyy-MM-dd hh:mm" type="text" class="formcontrol" th:name="departureString"
                th:value="${#dates.format(flightSchedule.departure,'yyyy-MM-dd hh:mm')}"/>
