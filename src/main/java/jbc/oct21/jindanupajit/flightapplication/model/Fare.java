@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
 @Entity
-public class Fair {
+public class Fare {
     @Id
     @SequenceGenerator(name = "Fair", sequenceName = "FairId", initialValue = 500000001, allocationSize = 1)
     @GeneratedValue(generator = "Fair")

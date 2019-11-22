@@ -12,24 +12,34 @@ public class Flight {
     private long id;
 
     @ManyToOne(
-            fetch = FetchType.EAGER,
-            cascade = {CascadeType.PERSIST, CascadeType.DETACH}
+            fetch = FetchType.EAGER
+
     )
     private Airline airline = new Airline();
 
     private int flightNumber;
 
     @ManyToOne(
-            fetch = FetchType.EAGER,
-            cascade = {CascadeType.PERSIST, CascadeType.DETACH}
+            fetch = FetchType.EAGER
+
     )
     private Airport from = new Airport();
 
     @ManyToOne(
-            fetch = FetchType.EAGER,
-            cascade = {CascadeType.PERSIST, CascadeType.DETACH}
+            fetch = FetchType.EAGER
+
     )
     private Airport destination = new Airport();
+
+    public Flight() {
+    }
+
+    public Flight(Airline airline, int flightNumber, Airport from, Airport destination) {
+        this.airline = airline;
+        this.flightNumber = flightNumber;
+        this.from = from;
+        this.destination = destination;
+    }
 
     @Override
     public String toString() {

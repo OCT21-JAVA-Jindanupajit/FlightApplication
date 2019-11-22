@@ -1,6 +1,6 @@
 package jbc.oct21.jindanupajit.flightapplication.model.repository;
 
-import com.sun.istack.internal.NotNull;
+;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,11 +39,11 @@ public class CloudinaryImage {
         populate(new HashMap<String, Object>());
     }
 
-    public CloudinaryImage(@NotNull Map<String, Object> infoMap) {
+    public CloudinaryImage( Map<String, Object> infoMap) {
         populate(infoMap);
     }
 
-    private CloudinaryImage populate(@NotNull Map<String, Object> infoMap) {
+    private CloudinaryImage populate(Map<String, Object> infoMap) {
         public_id = infoMap.getOrDefault("public_id","").toString();
         version = Long.parseLong(infoMap.getOrDefault("version","0").toString());
         width = Integer.parseInt(infoMap.getOrDefault("width","0").toString());

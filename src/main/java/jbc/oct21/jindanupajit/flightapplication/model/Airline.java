@@ -16,6 +16,15 @@ public class Airline {
     private String icaoCode;
     private String name;
 
+    public Airline() {
+    }
+
+    public Airline(String iataCode, String icaoCode, String name) {
+        this.iataCode = iataCode;
+        this.icaoCode = icaoCode;
+        this.name = name;
+    }
+
     @Override
     public String toString() {
 

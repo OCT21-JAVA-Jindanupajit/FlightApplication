@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AirlineRepository extends CrudRepository<Airline, Long> {
+    Airline findByIataCode(String iataCode);
 }

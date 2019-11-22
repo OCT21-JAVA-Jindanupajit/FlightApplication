@@ -1,0 +1,19 @@
+body {
+    background-color: aliceblue;
+}
+.img-container.img-square{
+
+}
+.img-container img{
+    height: 50px;
+    width: 50px;
+}
+
+a.color-navy {
+    color: #3b5557;
+}
+
+a.color-navy:hover {
+    color: #64698f;
+    text-decoration: none;
+}

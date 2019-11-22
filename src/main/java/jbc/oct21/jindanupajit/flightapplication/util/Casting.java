@@ -4,7 +4,15 @@ import java.sql.Timestamp;
 
 public abstract class Casting {
 
-
+    public static class Integer {
+        public static int from(String s) {
+            try {
+                return java.lang.Integer.parseInt(s);
+            } catch (NumberFormatException e) {
+                return 0;
+            }
+        }
+    }
 
     public static class Long {
         public static long from(String s) {
@@ -31,6 +39,10 @@ public abstract class Casting {
             return java.sql.Timestamp.valueOf(s);
         }
 
+        public static java.sql.Timestamp fromUserinput(String s) {
+            return java.sql.Timestamp.valueOf(String.format("%s:00.000000", s));
+        }
+
         public static java.sql.Timestamp from(int yyyy, int MM, int dd) {
             return java.sql.Timestamp.valueOf(String.format("%04d-%02d-%02d 12:00:00.000000", yyyy, MM, dd));
         }
@@ -41,6 +53,12 @@ public abstract class Casting {
 
         public static java.sql.Timestamp now() {
             return new java.sql.Timestamp(System.currentTimeMillis());
+        }
+    }
+
+    public static class MinuteDuration {
+        public static int from(int hh, int mm) {
+            return hh*60+mm;
         }
     }
 

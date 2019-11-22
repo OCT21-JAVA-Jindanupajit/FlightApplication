@@ -33,6 +33,21 @@ public class Airport {
     @Convert(converter = ZoneIdConverter.class)
     private ZoneId zoneId = ZoneId.of(ZoneOffset.UTC.getId());
 
+    public Airport() {}
+
+    public Airport(String iataCode, String icaoCode, String name, String location, CloudinaryImage image, String zoneIdString) {
+        this.iataCode = iataCode;
+        this.icaoCode = icaoCode;
+        this.name = name;
+        this.location = location;
+        this.image = image;
+        try {
+            this.zoneId = ZoneId.of(zoneIdString);
+        } catch (Exception e) {
+            this.zoneId = ZoneId.of(ZoneOffset.UTC.getId());
+        }
+    }
+
     @Override
     public String toString() {
        return iataCode;

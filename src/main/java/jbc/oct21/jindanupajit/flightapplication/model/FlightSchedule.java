@@ -39,7 +39,31 @@ public class FlightSchedule {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<Fair> fairCollection = new ArrayList<>();
+    private List<Fare> fareCollection = new ArrayList<>();
+
+    public FlightSchedule() {
+    }
+
+    public FlightSchedule(Flight flight, Timestamp departure, int duration) {
+        this.flight = flight;
+        this.departure = departure;
+        this.duration = duration;
+    }
+
+    public FlightSchedule(Flight flight, Timestamp departure, int duration, double price) {
+        this.flight = flight;
+        this.departure = departure;
+        this.duration = duration;
+        setPrice(price);
+    }
+
+    public FlightSchedule(Flight flight, List<Flight> returnFlightCollection, Timestamp departure, int duration, List<Fare> fairCollection) {
+        this.flight = flight;
+        this.returnFlightCollection = returnFlightCollection;
+        this.departure = departure;
+        this.duration = duration;
+        this.fareCollection = fairCollection;
+    }
 
     public long getId() {
         return id;
@@ -92,11 +116,32 @@ public class FlightSchedule {
         this.duration = duration;
     }
 
-    public List<Fair> getFairCollection() {
-        return fairCollection;
+    public List<Fare> getFareCollection() {
+        return fareCollection;
     }
 
-    public void setFairCollection(List<Fair> fairCollection) {
-        this.fairCollection = fairCollection;
+    public void setFareCollection(List<Fare> fareCollection) {
+        this.fareCollection = fareCollection;
+    }
+
+    public double getPrice() {
+        if (fareCollection == null)
+                return 0;
+
+        if (fareCollection.size() == 0)
+                return 0;
+
+        return fareCollection.get(0).getPrice();
+    }
+
+    public void setPrice(double price) {
+        if (fareCollection == null)
+            fareCollection = new ArrayList<>();
+
+        if (fareCollection.size() == 0)
+            fareCollection.add(new Fare());
+
+        fareCollection.get(0).setPrice(price);
+        fareCollection.get(0).setCode("E");
     }
 }
