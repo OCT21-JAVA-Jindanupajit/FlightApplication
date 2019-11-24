@@ -38,7 +38,8 @@ public class FlightProcessorController {
     public String save(@ModelAttribute FlightSchedule flightSchedule,
                        @RequestParam String airlineString,
                        @RequestParam String flightNumberString,
-                       @RequestParam String departureString,
+                       @RequestParam String departureDateString,
+                       @RequestParam String departureTimeString,
                        @RequestParam String fromString,
                        @RequestParam String toString,
                        @RequestParam String priceString
@@ -72,7 +73,7 @@ public class FlightProcessorController {
         System.out.printf("Flight: %s %d\n", flight.getAirline().getIataCode(), flight.getFlightNumber());
 
         flightSchedule.setFlight(flight);
-        flightSchedule.setDeparture(Casting.Timestamp.fromUserinput(departureString));
+        flightSchedule.setDeparture(Casting.Timestamp.from(departureDateString, departureTimeString));
         flightSchedule.setPrice(Casting.Double.from(priceString));
 
 

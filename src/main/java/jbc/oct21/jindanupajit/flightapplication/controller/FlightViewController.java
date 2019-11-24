@@ -20,7 +20,8 @@ public class FlightViewController {
 
     @ModelAttribute
     public void global(Model model) {
-        model.addAttribute("Casting",Casting.class);
+
+        model.addAttribute("WebSecurityEnabled", false);
     }
 
     @GetMapping("/all")

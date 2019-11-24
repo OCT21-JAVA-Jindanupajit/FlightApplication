@@ -39,8 +39,8 @@ public abstract class Casting {
             return java.sql.Timestamp.valueOf(s);
         }
 
-        public static java.sql.Timestamp fromUserinput(String s) {
-            return java.sql.Timestamp.valueOf(String.format("%s:00.000000", s));
+        public static java.sql.Timestamp from(String d, String t) {
+            return java.sql.Timestamp.valueOf(String.format("%s %s", d,t));
         }
 
         public static java.sql.Timestamp from(int yyyy, int MM, int dd) {
