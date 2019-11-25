@@ -38,8 +38,7 @@ public class FlightProcessorController {
     public String save(@ModelAttribute FlightSchedule flightSchedule,
                        @RequestParam String airlineString,
                        @RequestParam String flightNumberString,
-                       @RequestParam String departureDateString,
-                       @RequestParam String departureTimeString,
+                       @RequestParam String departureString,
                        @RequestParam String fromString,
                        @RequestParam String toString,
                        @RequestParam String priceString
@@ -73,7 +72,9 @@ public class FlightProcessorController {
         System.out.printf("Flight: %s %d\n", flight.getAirline().getIataCode(), flight.getFlightNumber());
 
         flightSchedule.setFlight(flight);
-        flightSchedule.setDeparture(Casting.Timestamp.from(departureDateString, departureTimeString));
+        // Convert from airport time to UTC and then back to System Timestamp
+        flightSchedule.setDeparture(
+                Casting.Timestamp.from( Casting.UTC.from(from.getZoneId(), departureString) ) );
         flightSchedule.setPrice(Casting.Double.from(priceString));
 
 

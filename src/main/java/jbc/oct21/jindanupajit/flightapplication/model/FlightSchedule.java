@@ -4,7 +4,6 @@ import jbc.oct21.jindanupajit.flightapplication.util.Casting;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +29,8 @@ public class FlightSchedule {
     )
     private List<Flight> returnFlightCollection = new ArrayList<>();
 
-    private Timestamp departure = Casting.Timestamp.now();
+
+    private Timestamp departure = Casting.Timestamp.nowNoSec();
 
     private int duration;
 
@@ -89,19 +89,20 @@ public class FlightSchedule {
         this.returnFlightCollection = returnFlightCollection;
     }
 
-    public Timestamp getDeparture() {
+    public Timestamp getDeparture() { // System Zone
         return departure;
     }
 
-    public String getDepartureString() {
-        return String.format("%s %s",getDepartureDateString(), getDepartureTimeString());
-    }
-    public String getDepartureDateString() {
-        return departure.toLocalDateTime().format(DateTimeFormatter.ofPattern("MMM dd, yyyy"));
+    public Timestamp getArrival() { // System Zone
+        return Timestamp.valueOf(departure.toLocalDateTime().plusMinutes(duration));
     }
 
-    public String getDepartureTimeString() {
-        return departure.toLocalDateTime().format(DateTimeFormatter.ofPattern("hh:mm:ss a"));
+    public Timestamp getDepartureLocal() { // Local Time at Depart Airport
+        return Casting.Timestamp.to(getFlight().getFrom().getZoneId(), getDeparture());
+    }
+
+    public Timestamp getArrivalLocal() { // Local Time at Arrival Airport
+        return Casting.Timestamp.to(getFlight().getDestination().getZoneId(), getArrival());
     }
 
     public void setDeparture(Timestamp departure) {

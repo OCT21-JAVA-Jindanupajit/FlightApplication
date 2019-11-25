@@ -38,8 +38,12 @@
                 </span>
             </div>
             <div style="font-size: 0.8rem;">
-                <span class="">Departure: </span>
-                <span style="text-transform: uppercase;" th:text="${flightSchedule.departureString}"></span>
+                <span class="">Departure Time: </span>
+                <span style="text-transform: uppercase;" th:text="${#dates.format(flightSchedule.departureLocal,'MMM dd, YYYY hh:mm a')}"></span>
+            </div>
+            <div style="font-size: 0.8rem;">
+                <span class="">Arrival Time: </span>
+                <span style="text-transform: uppercase;" th:text="${#dates.format(flightSchedule.arrivalLocal,'MMM dd, YYYY hh:mm a')}"></span>
             </div>
         </div>
         <a class="stretched-link" th:href="'/flight/view/'+${flightSchedule.id}"></a>
@@ -70,13 +74,29 @@
                 </span>
             </div>
             <div style="font-size: 1.2rem;" class="my-2">
-                <span class="">Departure: </span>
-                <span style="text-transform: uppercase;" th:text="${flightSchedule.departureString}"></span>
+                <span class="">Departure Local: </span>
+                <span style="text-transform: uppercase;" th:text="${#dates.format(flightSchedule.departureLocal,'MMM dd, YYYY hh:mm a')}"></span>
             </div>
             <div style="font-size: 1.2rem;" class="my-2">
+                <span class="">Departure System Timestamp: </span>
+                <span style="text-transform: uppercase;" th:text="${#dates.format(flightSchedule.departure,'MMM dd, YYYY hh:mm a')}"></span>
+            </div>
+            <div style="font-size: 1.2rem;" class="my-2" th:with="
+                    mph=60,
+                    minute=${flightSchedule.duration % mph},
+                    fullminute=${flightSchedule.duration - minute},
+                    hour=${fullminute / mph}">
                 <span class="">Flight Duration: </span>
-                <span style="text-transform: uppercase;" th:text="${flightSchedule.duration}"></span>
-                minute
+                <span style="text-transform: uppercase;" th:text="${hour + ':' +minute }"></span>
+                hour(s)
+            </div>
+            <div style="font-size: 1.2rem;" class="my-2">
+                <span class="">Arrival Local: </span>
+                <span style="text-transform: uppercase;" th:text="${#dates.format(flightSchedule.arrivalLocal,'MMM dd, YYYY hh:mm a')}"></span>
+            </div>
+            <div style="font-size: 1.2rem;" class="my-2">
+                <span class="">Arrival System Timestamp: </span>
+                <span style="text-transform: uppercase;" th:text="${#dates.format(flightSchedule.arrival,'MMM dd, YYYY hh:mm a')}"></span>
             </div>
             <div style="font-size: 1.2rem;" class="my-2">
                 <span class="">Departure Location: </span>
@@ -98,8 +118,8 @@
                 <span th:text="${flightSchedule.flight.airline.name}">KE</span>
             </div>
         </div>
-        <a class="btn btn-outline-secondary" th:href="'/flight/view/'+${flightSchedule.id}+'/editable'">Edit</a>
     </div>
+    <a class="btn btn-outline-secondary" th:href="'/flight/view/'+${flightSchedule.id}+'/editable'">Edit</a>
 </th:block>
 
 
@@ -125,65 +145,32 @@
         <div class="form-group">
             <label for="departureString">Departure Date and Time</label>
             <div>
-                <input th:replace="::input-date-param (
-                        name='departureDateString',
-                        placeHolder='Departure Date',
-                        initialValue=${#dates.format(flightSchedule.departure,'yyyy-MM-dd')})">
-                <input th:replace="::input-time-param (
-                        name='departureTimeString',
-                        placeHolder='Departure Time',
-                        initialValue=${#dates.format(flightSchedule.departure,'HH:mm:ss.SSS')})">
+                <input th:replace="form::input-timestamp-param (
+                        name='departureString',
+                        placeHolder='Departure Date Time',
+                        initialValue=${#dates.format(flightSchedule.departure,'yyyy-MM-dd')+'T'+#dates.format(flightSchedule.departure,'hh:mm:ss.SSS')})" />
             </div>
         </div>
-        <input th:replace="::input-text-field (
+        <input th:replace="form::input-text-field (
                 name='duration',
                 placeHolder='duration (minute)',
-                field=${'flightSchedule.duration'})">
-        <input th:replace="::input-text-param (
+                field=${'flightSchedule.duration'})" />
+        <input th:replace="form::input-text-param (
                 name='fromString',
                 placeHolder='From Airport',
-                initialValue=${flightSchedule.flight.from.iataCode})">
-        <input th:replace="::input-text-param (
+                initialValue=${flightSchedule.flight.from.iataCode})" />
+        <input th:replace="form::input-text-param (
                 name='toString',
                 placeHolder='To Aiport',
-                initialValue=${flightSchedule.flight.destination.iataCode})">
-        <input th:replace="::input-text-param (
+                initialValue=${flightSchedule.flight.destination.iataCode})" />
+        <input th:replace="form::input-text-param (
                 name='priceString',
                 placeHolder='Price',
-                initialValue=${flightSchedule.price})">
+                initialValue=${flightSchedule.price})" />
         <button class="btn btn-success" type="submit">Save</button>
     </form>
 
-</th:block>
-    <th:block th:fragment="input-text-hidden (name, value)">
-        <input th:id="${name}" th:name="${name}" type="text" class="formcontrol" th:value="${value}"/>
-    </th:block>
-    <th:block th:fragment="input-text-param (name, placeHolder, initialValue)">
-        <input th:id="${name}" th:name="${name}" th:placeholder="${placeHolder}" type="text"
-               class="formcontrol input input-text input-param"
-               th:value="${initialValue}" th:classappend="${'input-name-'+name}"/>
-    </th:block>
-    <th:block th:fragment="input-date-param (name, placeHolder, initialValue)">
-        <input th:id="${name}" th:name="${name}" th:placeholder="${placeHolder}" type="date"
-               class="formcontrol input input-date input-param"
-               th:value="${initialValue}" th:classappend="${'input-name-'+name}"/>
-    </th:block>
-    <th:block th:fragment="input-time-param (name, placeHolder, initialValue)">
-        <input th:id="${name}" th:name="${name}" th:placeholder="${placeHolder}" type="time"
-               class="formcontrol input input-time input-param"
-               th:value="${initialValue}" th:classappend="${'input-name-'+name}"/>
-    </th:block>
-    <th:block th:fragment="input-timestamp-param (name, placeHolder, initialValue)">
-        <input th:id="${name}" th:name="${name}" th:placeholder="${placeHolder}" type="time"
-               class="formcontrol input input-time input-param"
-               th:value="${initialValue}" th:classappend="${'input-name-'+name}"/>
-    </th:block>
-    <th:block th:fragment="input-text-field (name, field, placeHolder)">
-        <input th:id="${name}" th:name="${name}" th:placeholder="${placeHolder}" type="text"
-               class="formcontrol input input-text input-field"
-               th:field="${__${field}__}"
-               th:classappend="${'input-name-'+name}"/>
-    </th:block>
+
 <th:block th:remove="all">
 
 

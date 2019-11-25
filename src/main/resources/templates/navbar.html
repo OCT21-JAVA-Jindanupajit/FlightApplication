@@ -69,6 +69,13 @@
         <div class="dropdown-divider"></div>
     </li>
     <li th:fragment="nav-item-crud (label, baseUrl, crudId)" class="nav-item dropdown">
+        <th:block th:replace="modal::dialog (
+                    id='delete-dialog',
+                    title='Delete This Flight Schedule',
+                    body='Do you want to permanently delete this Flight Schedule?',
+                    url=@{/{base}/process/delete/{fid}(base=${baseUrl},fid=${crudId})},
+                    caption='Delete',
+                    btnClass='btn-danger')"> ... </th:block>
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Flight Schedule</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -79,8 +86,9 @@
                     isActive=${false} )">...</th:block>
                 <th:block th:replace="::nav-item-dropdown-item (
                     label=${'Delete This '+label},
-                    link=@{/{base}/delete/process/{fid}(base=${baseUrl},fid=${crudId})},
+                    link='javascript:$(\'#delete-dialog\').modal(\'show\');',
                     isActive=${false} )">...</th:block>
+
             </th:block>
             <th:block th:if="${crudId == 0}">
                 <th:block th:replace="::nav-item-dropdown-item (
